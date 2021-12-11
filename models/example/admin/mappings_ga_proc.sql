@@ -10,16 +10,16 @@ time_of_entry
 from  ( 
 
 SELECT  
-store,
-account,
-bigquery_name store_name,
-source,
+'woocommerce' as store,
+1 as account,
+'qeresformacion' store_name,
+dt.source,
 medium,
-platform as platform_n,
-channel as channel_n,
-time_of_entry,
-first_value(time_of_entry) OVER (PARTITION BY store ORDER BY time_of_entry DESC) lv
-FROM `{{ target.project }}.agency_data_pipeline.mappings_ga` 
+'platform' as platform_n,
+'channel' as channel_n,
+_fivetran_synced as time_of_entry,
+first_value(_fivetran_synced) OVER (PARTITION BY 'woocommerce' ORDER BY _fivetran_synced DESC) lv
+FROM `beaming-crowbar-330609.google_analytics.google_analytics_custom_report` dt 
 
 ) 
 

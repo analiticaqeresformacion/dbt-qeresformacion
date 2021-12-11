@@ -20,11 +20,11 @@ with products as (
 	first_value(_sdc_sequence) OVER (PARTITION BY product_id ORDER BY _sdc_sequence DESC) lv
 	FROM (
 		SELECT
-		variants,
-		product_type,
-		title product_name,
-		_sdc_sequence
-		FROM `{{ target.project }}.shopify_{{store}}.products` 
+		null as variants,
+		null as product_type,
+		JSON_VALUE(products,'$[0].name') as title product_name,
+		_fivetran_index
+		FROM `beaming-crowbar-330609.google_cloud_function_documents.transaction` 
 		)
 	cross join unnest(variants)
 	{% if not loop.last %} UNION ALL {% endif %}

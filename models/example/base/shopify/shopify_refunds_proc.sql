@@ -7,16 +7,16 @@ with refunds as (
 	{% for store in stores %}
 	SELECT
 	'{{store}}' store_name,
-	_id order_number,
-	checkout_id,
-	financial_status,
-	line_item_id,
-	quantity,
-	subtotal,
-	line_item.variant_id variant_id,
-	line_item.id refund_id,
- 	_sdc_sequence
-	FROM `{{ target.project }}.shopify_{{store}}.orders` 
+	doc_number as order_number,
+	null as checkout_id,
+	null as financial_status,
+	null as line_item_id,
+	null as quantity,
+	amount as subtotal,
+	null as line_item.variant_id variant_id,
+	null as line_item.id refund_id,
+ 	_fivetran_index as_sdc_sequence
+	FROM `beaming-crowbar-330609.google_cloud_function_documents.transaction` 
 	cross join unnest(refunds), unnest(refund_line_items)
   	where financial_status like '%refund%'
 	{% if not loop.last %} UNION ALL {% endif %}

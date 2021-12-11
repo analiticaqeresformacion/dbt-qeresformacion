@@ -8,12 +8,12 @@ with orders as (
 		SELECT
 		'{{store}}' store_name,
 		created_at,
-		_id order_number,
-		code discount_code,
-		type discount_type,
-		_sdc_sequence,
-		first_value(_sdc_sequence) OVER (PARTITION BY order_number, _id ORDER BY _sdc_sequence DESC) lv
-		FROM `{{ target.project }}.shopify_{{store}}.orders` 
+		doc_number as  order_number,
+		null as  discount_code,
+		null as discount_type,
+		_fivetran_index as _sdc_sequence as _sdc_sequence,
+		first_value(_fivetran_index) OVER (PARTITION BY doc_number ORDER BY _fivetran_index DESC) lv
+		FROM `beaming-crowbar-330609.google_cloud_function_documents.transaction`  
 		cross join unnest(discount_codes)
 	
 	{% if not loop.last %} UNION ALL {% endif %}
