@@ -8,14 +8,13 @@ max(time_of_entry) time_of_entry
 from  ( 
 
 SELECT  
-store,
-bigquery_name store_name,
-account,
-platform,
-time_of_entry,
-first_value(time_of_entry) OVER (PARTITION BY store ORDER BY time_of_entry DESC) lv
-FROM `{{ target.project }}.agency_data_pipeline.data_feeds` 
-where store_name != ''
+'woocommerce' as store,
+'bigquery_name' as store_name,
+1 as account,
+'platform' as platform,
+_fivetran_synced as time_of_entry,
+first_value(_fivetran_synced) OVER (PARTITION BY 'woocommerce' ORDER BY _fivetran_synced DESC) lv
+FROM `beaming-crowbar-330609.google_analytics.google_analytics_custom_report`
 
 ) 
 

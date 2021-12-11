@@ -34,25 +34,24 @@ with orders as (
 
 		SELECT
 		'{{store}}' store_name,
-		'Shopify' as lookup_platform,
-    	created_at,
-		_id order_number,
-    	total_line_items_price total_order_price_undiscounted,
-    	total_discounts,
-	    case when total_line_items_price > 0 then total_discounts / total_line_items_price 
-			else null end as discount_pct,        	
-		cast(discounted_price as float64) total_order_shipping_price,
-		total_price_usd total_order_price_incl_shipping,
-    	checkout_id,
-    	landing_site,    
-		customer.id customer_id,    
-    	line_items,
-    	financial_status,
-		_sdc_sequence,
-		first_value(_sdc_sequence) OVER (PARTITION BY order_number, _id ORDER BY _sdc_sequence DESC) lv
-		FROM `{{ {{ target.project }} }}.shopify_{{store}}.orders` 
+		'woocommerce' as lookup_platform,
+    	DATE(TIMESTAMP_SECONDS(date)) as  created_at,
+		document_id as  order_number,
+    	0 as  total_order_price_undiscounted,
+    	0 as total_discounts,
+	    null as  discount_pct,        	
+		null as total_order_shipping_price,
+		amount as total_order_price_incl_shipping,
+    	null as checkout_id,
+    	null as landing_site,    
+		contact as customer_id,    
+    	null as line_items,
+    	document_type as financial_status,
+		_fivetran_index as _sdc_sequence,
+		first_value(_fivetran_index) OVER (PARTITION BY document_idORDER BY _fivetran_index DESC) lv
+		FROM `beaming-crowbar-330609.google_cloud_function_documents.transaction` 
 		cross join unnest(shipping_lines)
-		where financial_status in ('paid', 'partially_refunded', 'refunded')
+		where financial_status in ('salesorder')
 	)
 	cross join unnest(line_items)
 	where lv = _sdc_sequence
