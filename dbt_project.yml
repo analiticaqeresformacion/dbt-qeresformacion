@@ -69,15 +69,3 @@ models:
     enabled: false
 
 
-
-# dbt_project.yml
-
-...
-config-version: 2
-
-vars:
-  ad_reporting__pinterest_enabled: False
-  ad_reporting__microsoft_ads_enabled: False
-  ad_reporting__linkedin_ads_enabled: False
-  ad_reporting__twitter_ads_enabled: False
-  ad_reporting__snapchat_ads_enabled: False

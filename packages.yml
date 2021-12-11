@@ -1,3 +1,12 @@
- packages:
- - package: fivetran/ad_reporting
+packages:
+  - package: fivetran/facebook_ads_source
+    version: 0.3.0
+  
+  - package: fivetran/google_ads
+    version: 0.4.0
+
+  - package: fivetran/stripe
+    version: 0.5.1
+
+  - package: fivetran/ad_reporting
     version: [">=0.5.0", "<0.6.0"]
