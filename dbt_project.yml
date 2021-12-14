@@ -34,50 +34,5 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 models:
   my_new_project:
-      # Applies to all files under models/example/
-      example:
-          materialized: view
-
-  # disable both pinterest models if not using pinterest ads
-  pinterest:
-    enabled: false
-  pinterest_source:
-    enabled: false
-  
-  # disable both microsoft ads models if not using microsoft ads
-  microsoft_ads:
-    enabled: false
-  microsoft_ads_source:
-    enabled: false
-  
-  # disable both linkedin ads models if not using linkedin ads
-  linkedin:
-    enabled: false
-  linkedin_source:
-    enabled: false
-  
-  # disable both twitter ads models if not using twitter ads
-  twitter_ads:
-    enabled: false
-  twitter_ads_source:
-    enabled: false
-  
-  # disable both snapchat ads models if not using snapchat ads
-  snapchat_ads:
-    enabled: false
-  snapchat_ads_source:
-    enabled: false
-
-
-
-# dbt_project.yml
-
-...
-config-version: 2
-
-vars:
-  ad_reporting__pinterest_enabled: False
-  ad_reporting__microsoft_ads_enabled: False
-  ad_reporting__linkedin_ads_enabled: False
-  ad_reporting__twitter_ads_enabled: False
-  ad_reporting__snapchat_ads_enabled: False
+      # Applies to all files under models/
+          materialized: table

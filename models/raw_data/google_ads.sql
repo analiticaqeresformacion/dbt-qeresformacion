@@ -1,0 +1,14 @@
+SELECT
+  _fivetran_id,
+  date,
+  amount,
+  campaign_id,
+  campaign_name,
+  campaign_status,
+  clicks,
+  conversion_rate,
+  cost,
+  impressions,
+  total_amount
+FROM
+  `beaming-crowbar-330609.google_ads.google_ads`

@@ -1,0 +1,17 @@
+SELECT
+  _fivetran_id,
+  date,
+  profile,
+  _fivetran_synced,
+  ad_clicks,
+  ad_cost,
+  adwords_campaign_id,
+  bounce_rate,
+  cpc,
+  goal_completions_all,
+  goal_conversion_rate_all,
+  goal_value_all,
+  sessions,
+  users
+FROM
+  `beaming-crowbar-330609.raw_google_analytics.adwords_campaigns`
