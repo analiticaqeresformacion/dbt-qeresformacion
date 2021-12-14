@@ -1,0 +1,15 @@
+SELECT
+  date,
+  _fivetran_id,
+  profile,
+  _fivetran_synced,
+  campaign,
+  hostname,
+  landing_page_path,
+  medium,
+  source,
+  transaction_id,
+  transaction_revenue,
+  transactions
+FROM
+  `beaming-crowbar-330609.google_analytics.google_analytics_custom_report`

@@ -1,0 +1,15 @@
+SELECT
+  _fivetran_id,
+  date,
+  _fivetran_synced,
+  account_id,
+  ad_name,
+  campaign_id,
+  campaign_name,
+  clicks,
+  cpc,
+  impressions,
+  spend,
+  reach
+FROM
+  `beaming-crowbar-330609.custom_facebook_ads.facebook_ads_campaigns`
