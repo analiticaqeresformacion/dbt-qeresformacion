@@ -38,7 +38,7 @@ payment_method,
                         null as medium,
                         null as source ,
                         null as payment_method
-                        FROM beaming-crowbar-330609.google_cloud_function.transaction dt
+                        FROM {{ref('holded_documents')}} dt
                         where document_type='payroll'
 
               UNION ALL 
@@ -61,7 +61,7 @@ payment_method,
                         null as medium,
                         null as source ,
                         null as payment_method
-                        FROM beaming-crowbar-330609.google_cloud_function.transaction dt
+                        FROM {{ref('holded_documents')}} dt
                         where document_type='purchase'
       
 
@@ -87,7 +87,7 @@ payment_method,
        null as source ,
        null as payment_method                   
        FROM
-       `beaming-crowbar-330609.custom_facebook_ads.facebook_ads_campaigns`
+       {{ref('facebook_ads')}}
        where spend>0
        GROUP BY 
        date,
@@ -115,7 +115,7 @@ payment_method,
        null as source ,
        null as payment_method                   
        FROM
-       `beaming-crowbar-330609.raw_google_analytics.adwords_campaigns`
+       {{ref('ga_adwords_campaigns')}}
        WHERE ad_cost>0
        GROUP BY 
        date,
@@ -191,7 +191,7 @@ payment_method,
                     JSON_VALUE(products,'$[0].name') as product_name,
                     total as amount ,
                     SUBSTR(notes, 9, 10) AS payment_method
-                    FROM beaming-crowbar-330609.google_cloud_function_documents.transaction dt 
+                    FROM {{ref('holded_documents')}} dt 
                     where document_type='salesorder' and DATE(TIMESTAMP_SECONDS(dt.date))<'2021-10-13'
 
                     UNION ALL 
@@ -207,14 +207,14 @@ payment_method,
                     JSON_VALUE(products,'$[0].name') as product_name,
                     total as amount ,
                     SUBSTR(notes, 9, 10) AS payment_method
-                    FROM beaming-crowbar-330609.google_cloud_function_documents.transaction dt 
+                    FROM {{ref('holded_documents')}} dt 
                     where document_type='invoice' and DATE(TIMESTAMP_SECONDS(dt.date))>='2021-10-13'
 
 
         
         
         ) dt
-        left join beaming-crowbar-330609.google_analytics.google_analytics_custom_report r on r.transaction_id=dt.document_number 
+        left join {{ref('ga_main')}} r on r.transaction_id=dt.document_number 
         
         ) financial_Data
 
