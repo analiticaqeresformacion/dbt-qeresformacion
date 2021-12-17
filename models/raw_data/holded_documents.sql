@@ -9,12 +9,11 @@ SELECT
   currency_change,
   custom_fields,
   date,
-  DESC,
+  t.desc,
   discount,
   doc_number,
   document_type,
   due_date,
-  LANGUAGE,
   notes,
   payments_detail,
   payments_pending,
@@ -28,4 +27,4 @@ SELECT
   total,
   warehouse
 FROM
-  `beaming-crowbar-330609.google_cloud_function_documents.transaction`
+  `beaming-crowbar-330609.google_cloud_function_documents.transaction` t

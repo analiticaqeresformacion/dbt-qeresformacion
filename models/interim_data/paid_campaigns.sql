@@ -5,7 +5,7 @@ SELECT
   campaign_name,
   campaign_status,
   clicks,
-  null as cpc,
+  0 as cpc,
   impressions,
   cost,
 FROM
