@@ -6,10 +6,10 @@ SELECT
   campaign,
   hostname,
   landing_page_path,
-  medium,
+  case when medium='(none)' then null else medium end as medium,
   source,
   transaction_id,
   transaction_revenue,
   transactions
 FROM
-  `beaming-crowbar-330609.google_analytics.google_analytics_custom_report`
+  `beaming-crowbar-330609.raw_google_analytics.google_analytics_custom_report`

@@ -24,11 +24,11 @@ payment_method,
                         dt.desc as document_number,
                         document_type,
                         contact_id as customer_id,
-                        contact_name as customer_name,
+                        null as customer_name,
                         null as currency,
                         null as currency_change,
                         null as product_name,
-                        amount ,
+                        amount as amount ,
                         null as transaction_revenue,
                         null as quantity,
                         null as hostname,
@@ -38,7 +38,7 @@ payment_method,
                         null as medium,
                         null as source ,
                         null as payment_method
-                        FROM {{ref('holded_documents')}} dt
+                        FROM {{ref('holded_payroll')}} dt
                         where document_type='payroll'
 
               UNION ALL 
@@ -46,12 +46,12 @@ payment_method,
                SELECT DATE(TIMESTAMP_SECONDS(dt.date)) as document_date,
                         dt.desc as document_number,
                         document_type,
-                        contact_id as customer_id,
+                        contact as customer_id,
                         contact_name as customer_name,
                         null as currency,
                         null as currency_change,
                         null as product_name,
-                        amount ,
+                        total*-1 as amount,
                         null as transaction_revenue,
                         null as quantity,
                         null as hostname,
@@ -155,7 +155,7 @@ payment_method,
         net/100 as net,
         currency,
         exchange_rate
-        FROM `beaming-crowbar-330609.stripe.balance_transaction`
+        FROM {{ref('stripe')}}
         where fee>0 ) stripe
 
 
@@ -182,7 +182,7 @@ payment_method,
         FROM (
                     SELECT
                     DATE(TIMESTAMP_SECONDS(dt.date)) as document_date,
-                    RIGHT(dt.desc,6) as document_number,
+                    TRIM(CAST(RIGHT(dt.desc,6) AS STRING)) as document_number,
                     dt.document_type  as document_type,
                     contact as customer_id,
                     dt.contact_name as customer_name,
@@ -198,7 +198,7 @@ payment_method,
 
                     SELECT
                     DATE(TIMESTAMP_SECONDS(dt.date)) as document_date,
-                    RIGHT(dt.desc,6) as document_number,
+                    TRIM(CAST(RIGHT(dt.desc,6) AS STRING)) as document_number,
                     dt.document_type  as document_type,
                     contact as customer_id,
                     dt.contact_name as customer_name,
