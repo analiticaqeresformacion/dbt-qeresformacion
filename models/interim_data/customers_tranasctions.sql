@@ -25,11 +25,11 @@ FROM
 	document_date as order_date,
 	1 as quantity,
 	amount as revenue,
-	lag(DATE(TIMESTAMP_SECONDS(document_date))) over w1 recent_order_date,
-	first_value(DATE(TIMESTAMP_SECONDS(document_date))) over w1 first_order_date,
-	first_value(document_number) over w1 first_order_number,
-	first_value(amount) over w1 first_order_revenue,
-	sum(amount) over w2 lifetime_revenue
+	lag(DATE(document_date)) over (PARTITION BY customer_name ORDER BY document_date asc) recent_order_date,
+	first_value(DATE(document_date)) over (PARTITION BY customer_name ORDER BY document_date asc) first_order_date,
+	first_value(document_number) over (PARTITION BY customer_name ORDER BY document_date asc) first_order_number,
+	first_value(amount) over (PARTITION BY customer_name ORDER BY document_date asc) first_order_revenue,
+	sum(amount) over (PARTITION BY customer_name) lifetime_revenue
 	FROM (select *   
                 FROM (
                     SELECT
@@ -62,7 +62,5 @@ FROM
                     FROM {{ref('holded_documents')}} dt 
                     where document_type='invoice' and DATE(TIMESTAMP_SECONDS(dt.date))>='2021-10-13'
                         )
-	WINDOW w1 as (PARTITION BY  contact_name ORDER BY DATE(TIMESTAMP_SECONDS(date)) asc),
-	w2 as (PARTITION BY contact_name)
 ) )
 order by client_name
