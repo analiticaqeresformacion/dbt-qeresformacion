@@ -1,6 +1,6 @@
-SELECT name,
-client_id,
-sum(orders) total_compras,
+SELECT 
+client_name,
+max(orders) total_compras,
 min(first_order_date) as first_order,
 max(order_date) as last_order,
 min(first_order_revenue) as first_order_revenue,
@@ -14,6 +14,6 @@ case when sum(orders)=1 then '1'
 when sum(orders)=2 then '2'
 else '3+'
  end as segment_frecuency
-FROM {{ref('customers_tranasctions')}} t
-left join {{ref('clients')}} c on c.name= t.client_name
-group by name,client_id
+FROM {{ref('customers_transactions')}} t
+--left join {{ref('clients')}} c on c.name= t.client_name
+group by client_name
