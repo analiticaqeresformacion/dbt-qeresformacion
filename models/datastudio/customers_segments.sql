@@ -10,8 +10,8 @@ case when max(lifetime_revenue)>3000 then '+3000'
     when max(lifetime_revenue)<1000 and max(lifetime_revenue)>500 then '+500'
     else '-500'
     end as segment_revenue,
-case when sum(orders)=1 then '1'
-when sum(orders)=2 then '2'
+case when max(orders)=1 then '1'
+when max(orders)=2 then '2'
 else '3+'
  end as segment_frecuency
 FROM {{ref('customers_transactions')}} t
