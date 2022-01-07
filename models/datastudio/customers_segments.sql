@@ -15,5 +15,4 @@ when sum(orders)=2 then '2'
 else '3+'
  end as segment_frecuency
 FROM {{ref('customers_transactions')}} t
---left join {{ref('clients')}} c on c.name= t.client_name
 group by client_name
