@@ -13,7 +13,7 @@ quantity,
 revenue,
  orders,
 first_order_revenue,
-lifetime_revenue
+round(lifetime_revenue,2) as lifetime_revenue
 FROM (
 	SELECT
         'woocommerce' as store,

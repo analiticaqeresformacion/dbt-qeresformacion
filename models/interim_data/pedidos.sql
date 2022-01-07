@@ -16,7 +16,16 @@ with ga_main_agg as (
     source)
 
     SELECT 
-        pedidos.*,
+        pedidos.order_date,
+        pedidos.order_number,
+        pedidos.order_source,
+        pedidos.order_client_name,
+        pedidos.order_product_name,
+        pedidos.order_amount,
+        case WHEN order_payment_method IN ('Tarjeta de crédito (Stripe)','Tarjeta de crédito (Stripe), te recomendamos este método en caso de usar una tarjeta no española','	 stripe') THEN  'stripe'
+             WHEN order_payment_method IN ('	 paypal','PayPal') THEN 'PayPal'
+             ELSE 'redsys'
+             END AS order_payment_method,
         hostname,
         campaign,
         url,
@@ -27,7 +36,7 @@ with ga_main_agg as (
         SELECT
             document_date as order_date,
             document_number as order_number,
-            'Holded' as order_source,
+            document_source as order_source,
             --customer_id as order_client_id,
             customer_name as order_client_name,
             --currency as order_currency,
@@ -155,3 +164,4 @@ with ga_main_agg as (
     ) pedidos
 
 LEFT JOIN ga_main_agg ga on ga.transaction_id=pedidos.order_number 
+WHERE order_amount>0

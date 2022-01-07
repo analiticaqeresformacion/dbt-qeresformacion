@@ -2,6 +2,7 @@
  MAX(document_date) as document_date,
  document_number,
  MIN(document_type) as document_type,
+ document_source,
  customer_id,
  customer_name,
  MIN(currency) AS currency,
@@ -15,6 +16,7 @@
     DATE(TIMESTAMP_SECONDS(dt.date)) AS document_date,
     TRIM(CAST(RIGHT(dt.DESC,6) AS STRING)) AS document_number,
     dt.document_type AS document_type,
+    null as document_source,
     contact AS customer_id,
     dt.contact_name AS customer_name,
     currency,
@@ -34,6 +36,8 @@
     DATE(TIMESTAMP_SECONDS(dt.date)) AS document_date,
     TRIM(CAST(RIGHT(dt.DESC,6) AS STRING)) AS document_number,
     dt.document_type AS document_type,
+    case when left(doc_number,5)='W0000' then 'landing_seminario' 
+            else 'web_woocommerce' end as document_source,
     contact AS customer_id,
     dt.contact_name AS customer_name,
     currency,
@@ -49,6 +53,7 @@
 
 GROUP BY
  document_number,
+ document_source,
  customer_id,
  customer_name,
  product_name
